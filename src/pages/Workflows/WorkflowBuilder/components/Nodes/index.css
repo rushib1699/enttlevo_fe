@@ -1,0 +1,18 @@
+.custom-node {
+  @apply border bg-white w-[220px] h-auto px-3 py-4 rounded-xl min-h-[50px] relative;
+}
+
+.custom-node.selected {
+  border-color: #007bff;
+}
+
+.react-flow__edge-path {
+  stroke: #b4b4b4;
+  stroke-width: 1px;
+}
+
+.react-flow__handle {
+  border: 0;
+  @apply bg-green-700 h-[1px] w-[1px];
+  /* display: none !important; */
+}
