@@ -119,7 +119,7 @@ const ZohoEmailPage: React.FC = () => {
 
   
   const checkUserExists = async () => {
-    const email = sessionStorage.getItem("googleEmail");
+    const email = sessionStorage.getItem("zohoEmail");
     if (!email) return;
     try {
       const response = await checkGoogleUser({ email });
@@ -156,7 +156,7 @@ const ZohoEmailPage: React.FC = () => {
   };
 
   const getValidAccessToken = async () => {
-    const email = sessionStorage.getItem("googleEmail");
+    const email = sessionStorage.getItem("zohoEmail");
     try {
       const response = await refreshGoogleToken({ email: email! });
       return response.accessToken;
@@ -277,7 +277,7 @@ const ZohoEmailPage: React.FC = () => {
     try {
       const response = await viewGoogleEmail({
         emailId: email.id,
-        userEmail: sessionStorage.getItem("googleEmail")!,
+        userEmail: sessionStorage.getItem("zohoEmail")!,
       });
 
       //const safeHtml = DOMPurify.sanitize(selectedEmail.body);
@@ -320,7 +320,7 @@ const ZohoEmailPage: React.FC = () => {
 
     try {
       await sendGoogleEmail({
-        user_email: sessionStorage.getItem("googleEmail")!,
+        user_email: sessionStorage.getItem("zohoEmail")!,
         to: to,
         subject: subject,
         body: body,
@@ -337,7 +337,7 @@ const ZohoEmailPage: React.FC = () => {
       setBody("");
 
       // Refresh email lists
-      const email = sessionStorage.getItem("googleEmail");
+      const email = sessionStorage.getItem("zohoEmail");
       if (email) {
         await fetchAllEmails(email);
       }
@@ -391,7 +391,7 @@ const ZohoEmailPage: React.FC = () => {
     setIsSending(true);
     try {
       await replyEmail({
-        user_email: sessionStorage.getItem("googleEmail")!,
+        user_email: sessionStorage.getItem("zohoEmail")!,
         messageId: selectedEmail.id,
         replyBody: body,
       });
@@ -404,7 +404,7 @@ const ZohoEmailPage: React.FC = () => {
       setReplyModalVisible(false);
 
       // Refresh email lists
-      const email = sessionStorage.getItem("googleEmail");
+      const email = sessionStorage.getItem("zohoEmail");
       if (email) {
         await fetchAllEmails(email);
       }
@@ -447,7 +447,7 @@ const ZohoEmailPage: React.FC = () => {
     setIsSending(true);
     try {
       await forwardGoogleEmail({
-        user_email: sessionStorage.getItem("googleEmail")!,
+        user_email: sessionStorage.getItem("zohoEmail")!,
         messageId: selectedEmail.id,
         forwardTo: to,
         forwardBody: body,
@@ -461,7 +461,7 @@ const ZohoEmailPage: React.FC = () => {
       setBody("");
 
       // Refresh emails after forwarding
-      const email = sessionStorage.getItem("googleEmail");
+      const email = sessionStorage.getItem("zohoEmail");
       if (email) {
         await fetchAllEmails(email);
       }
@@ -494,7 +494,7 @@ const ZohoEmailPage: React.FC = () => {
     try {
       const response = await viewGoogleEmail({
         emailId: email.id,
-        userEmail: sessionStorage.getItem("googleEmail")!,
+        userEmail: sessionStorage.getItem("zohoEmail")!,
       });
 
       const emailData = {
@@ -532,7 +532,7 @@ const ZohoEmailPage: React.FC = () => {
     setIsSending(true);
     try {
       await replyAllEmail({
-        user_email: sessionStorage.getItem("googleEmail")!,
+        user_email: sessionStorage.getItem("zohoEmail")!,
         messageId: selectedEmail.id,
         replyBody: body,
       });
@@ -580,7 +580,7 @@ const ZohoEmailPage: React.FC = () => {
   };
 
   const handleRefresh = async () => {
-    const email = sessionStorage.getItem("googleEmail");
+    const email = sessionStorage.getItem("zohoEmail");
     if (email) {
       setIsLoadingInbox(true);
       setIsLoadingSent(true);

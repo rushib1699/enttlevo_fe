@@ -18,16 +18,16 @@ export interface ApplicationProviderProps {
 
 export class SessionUtils {
   static setSession(user: LoginResponse) {
-    sessionStorage.setItem(USER_SESSION_KEY, JSON.stringify(user));
+    localStorage.setItem(USER_SESSION_KEY, JSON.stringify(user));
   }
 
   static getSession(): LoginResponse | null {
-    const session = sessionStorage.getItem(USER_SESSION_KEY);
+    const session = localStorage.getItem(USER_SESSION_KEY);
     return session ? JSON.parse(session) : null;
   }
 
   static removeSession() {
-    sessionStorage.removeItem(USER_SESSION_KEY);
+    localStorage.removeItem(USER_SESSION_KEY);
     sessionStorage.removeItem(USER_PERMISSION_SESSION_KEY);
     sessionStorage.removeItem(COMPANY_PERMISSION_SESSION_KEY);
   }
