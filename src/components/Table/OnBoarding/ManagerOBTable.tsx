@@ -31,11 +31,6 @@ const ManagerOBTable = ({ data, loading }: ManagerOBTableProps) => {
 
   const columns: GridColDef[] = [
     { 
-      field: 'id', 
-      headerName: 'ID', 
-      width: 80 
-    },
-    { 
       field: 'first_name', 
       headerName: 'First Name', 
       width: 200,

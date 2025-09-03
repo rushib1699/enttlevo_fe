@@ -253,7 +253,6 @@ const UnassignedSalesTable: React.FC<UnassignedSalesTableProps> = ({ team, roleI
         Assign
       </Button>
     )},
-    { field: 'id', headerName: 'ID', width: 100 },
     {  field: 'account_name',
        headerName: 'Account Name', 
        width: 200,

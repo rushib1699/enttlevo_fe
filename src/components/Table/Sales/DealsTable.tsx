@@ -21,6 +21,7 @@ import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { Trash2, Lock } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 interface DealsTableProps {
   data: DealsData[];
@@ -222,13 +223,7 @@ const DealsTable: React.FC<DealsTableProps> = ({
     navigate(`/sales/account/${id}`);
   };
 
-  const columns: GridColDef<LeadsData>[] = useMemo(() => [
-    {
-      field: 'id',
-      headerName: 'ID',
-      width: 100,
-      sortable: false,
-    },
+  const columns: GridColDef<DealsData>[] = useMemo(() => [
     {
       field: 'account_name',
       headerName: 'Company',
@@ -239,7 +234,7 @@ const DealsTable: React.FC<DealsTableProps> = ({
           ? params.value.slice(0, 27) + '...'
           : params.value;
 
-        return (
+        const content = (
           <div
             onClick={() => handleViewDetails(params.row.id)}
             className={`mt-1 flex items-center space-x-2 cursor-pointer group transition-all duration-300 ease-in-out hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 p-2 -m-2 border border-transparent ${
@@ -274,6 +269,17 @@ const DealsTable: React.FC<DealsTableProps> = ({
             </div>
           </div>
         );
+
+        return params.row.sent_to_ob === 1 ? (
+          <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+            {content}
+            </TooltipTrigger>
+            <TooltipContent>This account is transferred to onboarding</TooltipContent>
+          </Tooltip>
+          </TooltipProvider>
+        ) : content;
       },
       sortable: false,
     },

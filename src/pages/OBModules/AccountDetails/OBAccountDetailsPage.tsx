@@ -543,12 +543,36 @@ const OBAccountDetailsPage = () => {
           {/* Left Column - Company Details */}
           <div className="lg:col-span-3 space-y-2">
             {/* Company Details Card */}
-            <Card className="rounded-lg">
+            <Card className="">
               <CardHeader className="bg-slate-600 text-white">
+                <div className="flex items-center justify-between">
                 <CardTitle className="flex items-center gap-2">
                   <Building2 className="h-5 w-5" />
                   Company Details
                 </CardTitle>
+
+                {isEditing ? (
+                  <div className="flex items-center gap-2">
+                    <Button onClick={() => setIsEditing(false)} variant="outline" size="sm">
+                      <X className="h-4 w-4 mr-2 bg-white text-black" />
+                    </Button>
+                
+                    <Button onClick={handleSave} size="sm" disabled={isSaving}>
+                      {isSaving ? (
+                        <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                      ) : (
+                        <Save className="h-4 w-4 mr-2" />
+                      )}
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2">
+                    <Button onClick={() => setIsEditing(true)} variant="outline" size="sm">
+                      <Edit className="h-4 w-4 mr-2 bg-white text-black" />
+                    </Button>
+                  </div>
+                )}
+                </div>
               </CardHeader>
               <CardContent className="p-2 space-y-2">
                 <div>
@@ -743,100 +767,135 @@ const OBAccountDetailsPage = () => {
                   </CardHeader>
                 </CollapsibleTrigger>
                 <CollapsibleContent>
-                  <CardContent className="p-2">
-                    <div className="space-y-2">
+                  <CardContent className="p-4">
+                    <div className="space-y-4">
                       {accountData.contacts && accountData.contacts.length > 0 ? (
                         accountData.contacts.map((contact, index) => (
-                          <div key={index} className="p-4 border rounded-lg space-y-3">
-                            <div>
-                              <Label className="text-sm font-medium text-gray-700">Name</Label>
-                              <Input
-                                value={contact.poc_name || ''}
-                                onChange={(e) => handleContactChange(index, 'poc_name', e.target.value)}
-                                disabled={!isEditing}
-                                className="mt-1"
-                              />
-                            </div>
-                            <div>
-                              <Label className="text-sm font-medium text-gray-700">Email</Label>
-                              <Input
-                                type="email"
-                                value={contact.poc_email || ''}
-                                onChange={(e) => handleContactChange(index, 'poc_email', e.target.value)}
-                                disabled={!isEditing}
-                                className="mt-1"
-                              />
-                            </div>
-                            <div>
-                              <Label className="text-sm font-medium text-gray-700">Phone</Label>
-                              <Input
-                                value={contact.poc_contact || ''}
-                                onChange={(e) => handleContactChange(index, 'poc_contact', e.target.value)}
-                                disabled={!isEditing}
-                                className="mt-1"
-                              />
-                            </div>
-                            <div>
-                              <Label className="text-sm font-medium text-gray-700">LinkedIn</Label>
-                              <Input
-                                value={contact.poc_linkedin || ''}
-                                onChange={(e) => handleContactChange(index, 'poc_linkedin', e.target.value)}
-                                disabled={!isEditing}
-                                className="mt-1"
-                              />
+                          <div key={index} className="p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200">
+                            <div className="grid grid-cols-2 gap-4">
+                              <div className="space-y-3">
+                                <div>
+                                  <Label className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                                    <User className="h-4 w-4 text-gray-500" />
+                                    Name
+                                  </Label>
+                                  <Input
+                                    value={contact.poc_name || ''}
+                                    onChange={(e) => handleContactChange(index, 'poc_name', e.target.value)}
+                                    disabled={!isEditing}
+                                    className="mt-1"
+                                  />
+                                </div>
+                                <div>
+                                  <Label className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                                    <Mail className="h-4 w-4 text-gray-500" />
+                                    Email
+                                  </Label>
+                                  <Input
+                                    type="email"
+                                    value={contact.poc_email || ''}
+                                    onChange={(e) => handleContactChange(index, 'poc_email', e.target.value)}
+                                    disabled={!isEditing}
+                                    className="mt-1"
+                                  />
+                                </div>
+                              </div>
+                              <div className="space-y-3">
+                                <div>
+                                  <Label className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                                    <Phone className="h-4 w-4 text-gray-500" />
+                                    Phone
+                                  </Label>
+                                  <Input
+                                    value={contact.poc_contact || ''}
+                                    onChange={(e) => handleContactChange(index, 'poc_contact', e.target.value)}
+                                    disabled={!isEditing}
+                                    className="mt-1"
+                                  />
+                                </div>
+                                <div>
+                                  <Label className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                                    <Linkedin className="h-4 w-4 text-gray-500" />
+                                    LinkedIn
+                                  </Label>
+                                  <Input
+                                    value={contact.poc_linkedin || ''}
+                                    onChange={(e) => handleContactChange(index, 'poc_linkedin', e.target.value)}
+                                    disabled={!isEditing}
+                                    className="mt-1"
+                                  />
+                                </div>
+                              </div>
                             </div>
                           </div>
                         ))
                       ) : (
-                        <div className="text-center py-4 text-gray-500">
-                          No contact details available
+                        <div className="text-center py-6 bg-gray-50 rounded-lg border border-dashed border-gray-300">
+                          <User className="h-8 w-8 text-gray-400 mx-auto mb-2" />
+                          <p className="text-gray-500">No contact details available</p>
                         </div>
                       )}
 
                       {isEditing && (
                         <Dialog open={isContactModalOpen} onOpenChange={setIsContactModalOpen}>
                           <DialogTrigger asChild>
-                            <Button variant="default" className="w-auto">
+                            <Button variant="default" className="w-full">
                               <Plus className="h-4 w-4 mr-2" />
-                              Add Contact
+                              Add New Contact
                             </Button>
                           </DialogTrigger>
-                          <DialogContent>
+                          <DialogContent className="sm:max-w-[425px]">
                             <DialogHeader>
                               <DialogTitle>Add New Contact</DialogTitle>
                             </DialogHeader>
-                            <div className="space-y-2">
+                            <div className="grid gap-4 py-4">
                               <div>
-                                <Label>Name</Label>
+                                <Label className="flex items-center gap-2">
+                                  <User className="h-4 w-4" />
+                                  Name
+                                </Label>
                                 <Input
                                   value={newContact.contact_name}
                                   onChange={(e) => setNewContact(prev => ({ ...prev, contact_name: e.target.value }))}
                                   placeholder="Enter contact name"
+                                  className="mt-1"
                                 />
                               </div>
                               <div>
-                                <Label>Email</Label>
+                                <Label className="flex items-center gap-2">
+                                  <Mail className="h-4 w-4" />
+                                  Email
+                                </Label>
                                 <Input
                                   type="email"
                                   value={newContact.contact_email}
                                   onChange={(e) => setNewContact(prev => ({ ...prev, contact_email: e.target.value }))}
                                   placeholder="Enter email address"
+                                  className="mt-1"
                                 />
                               </div>
                               <div>
-                                <Label>Phone</Label>
+                                <Label className="flex items-center gap-2">
+                                  <Phone className="h-4 w-4" />
+                                  Phone
+                                </Label>
                                 <Input
                                   value={newContact.contact_number}
                                   onChange={(e) => setNewContact(prev => ({ ...prev, contact_number: e.target.value }))}
                                   placeholder="Enter phone number"
+                                  className="mt-1"
                                 />
                               </div>
                               <div>
-                                <Label>LinkedIn</Label>
+                                <Label className="flex items-center gap-2">
+                                  <Linkedin className="h-4 w-4" />
+                                  LinkedIn
+                                </Label>
                                 <Input
                                   value={newContact.contact_linkedin}
                                   onChange={(e) => setNewContact(prev => ({ ...prev, contact_linkedin: e.target.value }))}
                                   placeholder="Enter LinkedIn profile"
+                                  className="mt-1"
                                 />
                               </div>
                             </div>

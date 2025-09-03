@@ -10,12 +10,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent } from "@/components/ui/card";
 import { 
   Settings, 
   Eye, 
   EyeOff, 
-  Table, 
   Columns, 
   RefreshCw,
   Save,
@@ -98,7 +96,9 @@ const extractColumnsFromData = (data: any[]): { [key: string]: string } => {
   const columns: { [key: string]: string } = {};
   
   Object.keys(sampleRow).forEach(key => {
-    columns[key] = getColumnDisplayName(key);
+    if (key !== 'id') { // Skip the id column
+      columns[key] = getColumnDisplayName(key);
+    }
   });
   
   return columns;
@@ -215,7 +215,7 @@ const ColumnVisibilitySheet: React.FC<ColumnVisibilitySheetProps> = ({
 
       // Save the reset preferences immediately
       await updateUserPreferences({
-        user_id: loginResponse?.id,
+        user_id: loginResponse?.id || 0,
         table_name: currentTableName,
         preferences: {
           columnVisibilityModel: resetVisibility

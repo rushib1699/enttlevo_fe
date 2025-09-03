@@ -458,12 +458,38 @@ const AMAccountDetailsPage = () => {
           {/* Left Column - Company Details */}
           <div className="lg:col-span-3 space-y-2">
             {/* Company Details Card */}
-            <Card className="rounded-lg">
+            <Card>
               <CardHeader className="bg-slate-600 text-white">
+                <div className="flex items-center justify-between">
                 <CardTitle className="flex items-center gap-2">
                   <Building2 className="h-5 w-5" />
                   Company Details
                 </CardTitle>
+
+                {isEditing ? (
+                  <div className="flex items-center gap-2">
+                    <Button onClick={() => setIsEditing(false)} variant="outline" size="sm">
+                      <X className="h-4 w-4 mr-2 bg-white text-black" />
+                    </Button>
+                    <Button onClick={handleSave} size="sm" disabled={isSaving}>
+                      {isSaving ? (
+                        <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                      ) : (
+                        <Save className="h-4 w-4 mr-2" />
+                      )}
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2">
+                    <Button onClick={() => setIsEditing(true)} variant="outline" size="sm">
+                      <Edit className="h-4 w-4 mr-2 bg-white text-black" />
+                    </Button>
+                  </div>
+                )}
+
+                </div>
+
+
               </CardHeader>
               <CardContent className="p-2 space-y-2">
                 <div>

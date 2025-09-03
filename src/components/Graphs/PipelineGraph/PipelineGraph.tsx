@@ -76,7 +76,14 @@ const PipelineGraph: React.FC<Props> = ({ graphData }) => {
         plugins: {
           legend: {
             position: 'top',
-            align: 'start',
+            align: 'end',
+            title: {
+              font: {
+                family: "'Inter', sans-serif",
+                size: 12,
+                weight: 500
+              }
+            },
             labels: {
               boxWidth: 12,
               boxHeight: 12,
@@ -84,7 +91,7 @@ const PipelineGraph: React.FC<Props> = ({ graphData }) => {
               font: {
                 family: "'Inter', sans-serif",
                 size: 12,
-                weight: '500'
+                weight: 500
               },
               usePointStyle: true,
               pointStyle: 'circle'
@@ -102,7 +109,7 @@ const PipelineGraph: React.FC<Props> = ({ graphData }) => {
             usePointStyle: true,
             titleFont: {
               size: 13,
-              weight: '600'
+              weight: 600
             },
             bodyFont: {
               size: 12
@@ -128,7 +135,7 @@ const PipelineGraph: React.FC<Props> = ({ graphData }) => {
               font: {
                 family: "'Inter', sans-serif",
                 size: 12,
-                weight: '500'
+                weight: 500
               },
               color: '#6b7280',
               padding: 8
@@ -141,7 +148,7 @@ const PipelineGraph: React.FC<Props> = ({ graphData }) => {
             },
             grid: {
               color: '#f3f4f6',
-              drawBorder: false,
+              border: false,
               drawTicks: false
             },
             ticks: {
@@ -149,7 +156,7 @@ const PipelineGraph: React.FC<Props> = ({ graphData }) => {
               font: {
                 family: "'Inter', sans-serif",
                 size: 12,
-                weight: '500'
+                weight: 500
               },
               color: '#6b7280',
               padding: 8,

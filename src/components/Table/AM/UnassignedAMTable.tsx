@@ -181,7 +181,26 @@ const UnassignedAMTable: React.FC<UnassignedAMTableProps> = ({ data, loading, co
   }
 
   const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', width: 100 },
+    {
+      field: 'action',
+      headerName: 'Actions',
+      width: 140,
+      renderCell: (params: { row: any; }) => (
+        <Button
+          variant="default"
+          size="sm"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleAssignClick(params.row);
+          }}
+        >
+          <span className='rounded-lg'>
+            Assign Owner
+          </span>
+        </Button>
+      ),
+      headerClassName: "table-header",
+    },
     { field: 'name', headerName: 'Account Name', width: 200 },
     { field: 'support_email', headerName: 'Support Email', width: 200 },
     { field: 'address', headerName: 'Address', width: 200 },
@@ -209,26 +228,6 @@ const UnassignedAMTable: React.FC<UnassignedAMTableProps> = ({ data, loading, co
     { field: 'previous_platform', headerName: 'Previous Platform', width: 150 },
     { field: 'timezone', headerName: 'Timezone', width: 100 },
     { field: 'accounting_software', headerName: 'Accounting Software', width: 150 },
-    {
-      field: 'action',
-      headerName: 'Actions',
-      width: 140,
-      renderCell: (params: { row: any; }) => (
-        <Button
-          variant="default"
-          size="sm"
-          onClick={(e) => {
-            e.stopPropagation();
-            handleAssignClick(params.row);
-          }}
-        >
-          <span className='rounded-lg'>
-            Assign Owner
-          </span>
-        </Button>
-      ),
-      headerClassName: "table-header",
-    },
   ];
 
   return (

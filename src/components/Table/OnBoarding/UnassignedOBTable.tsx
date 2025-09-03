@@ -139,6 +139,26 @@ const UnassignedOBTable: React.FC<UnassignedOBTableProps> = ({ data, loading, co
   }
 
   const columns: GridColDef[] = [
+    {
+      field: 'actions',
+      headerName: 'Actions',
+      width: 140,
+      renderCell: (params: { row: any; }) => (
+        <Button
+          variant="default"
+          size="sm"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleAssignClick(params.row);
+          }}
+        >
+          <span className='rounded-lg'>
+            Assign Owner
+          </span>
+        </Button>
+      ),
+      headerClassName: "table-header",
+    },
     { field: 'name', headerName: 'Account Name', width: 200 },
     { field: 'support_email', headerName: 'Support Email', width: 200 },
     { field: 'website', headerName: 'Website', width: 200 },
@@ -160,26 +180,6 @@ const UnassignedOBTable: React.FC<UnassignedOBTableProps> = ({ data, loading, co
     // { field: 'transfer_date', headerName: 'Transfer Date', width: 150, type: 'date' },
     // { field: 'contract_start_date', headerName: 'Contract Start', width: 150, type: 'date' },
     // { field: 'contract_close_date', headerName: 'Contract End', width: 150, type: 'date' },
-    {
-      field: 'actions',
-      headerName: 'Actions',
-      width: 140,
-      renderCell: (params: { row: any; }) => (
-        <Button
-          variant="default"
-          size="sm"
-          onClick={(e) => {
-            e.stopPropagation();
-            handleAssignClick(params.row);
-          }}
-        >
-          <span className='rounded-lg'>
-            Assign Owner
-          </span>
-        </Button>
-      ),
-      headerClassName: "table-header",
-    },
   ];
 
   return (

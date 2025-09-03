@@ -82,12 +82,6 @@ const AllOBAccounts: React.FC<AllOBAccountsProps> = ({
 
   const columns: GridColDef[] = useMemo(() => [
     {
-      field: 'id',
-      headerName: 'ID',
-      width: 100,
-      sortable: false,
-    },
-    {
       field: 'name',
       headerName: 'Company',
       width: 250,

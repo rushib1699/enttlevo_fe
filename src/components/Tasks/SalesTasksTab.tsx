@@ -72,23 +72,23 @@ const SalesTasksTab = ({ accountId, companyId, user_id, isLeadInOnboarding }: Ta
 
     const getTaskIcon = (type: TasksType) => {
         switch (type) {
-            case 'call': return <Phone className="h-4 w-4" />;
-            case 'meeting': return <Users className="h-4 w-4" />;
-            case 'mail': return <Mail className="h-4 w-4" />;
-            case 'message': return <MessageSquare className="h-4 w-4" />;
-            case 'followup': return <User className="h-4 w-4" />;
-            default: return <Calendar className="h-4 w-4" />;
+            case 'call': return <Phone className="h-4 w-4 text-emerald-600" />;
+            case 'meeting': return <Users className="h-4 w-4 text-indigo-600" />;
+            case 'mail': return <Mail className="h-4 w-4 text-amber-600" />;
+            case 'message': return <MessageSquare className="h-4 w-4 text-violet-600" />;
+            case 'followup': return <User className="h-4 w-4 text-yellow-600" />;
+            default: return <Calendar className="h-4 w-4 text-slate-600" />;
         }
     }
 
     const getTypeColor = (type: TasksType) => {
         switch (type) {
-            case 'call': return 'bg-green-100 text-green-700';
-            case 'meeting': return 'bg-blue-100 text-blue-700';
-            case 'mail': return 'bg-orange-100 text-orange-700';
-            case 'message': return 'bg-purple-100 text-purple-700';
+            case 'call': return 'bg-emerald-100 text-emerald-700';
+            case 'meeting': return 'bg-indigo-100 text-indigo-700';
+            case 'mail': return 'bg-amber-100 text-amber-700';
+            case 'message': return 'bg-violet-100 text-violet-700';
             case 'followup': return 'bg-yellow-100 text-yellow-700';
-            default: return 'bg-gray-100 text-gray-700';
+            default: return 'bg-slate-100 text-slate-700';
         }
     }
 
@@ -323,31 +323,31 @@ const SalesTasksTab = ({ accountId, companyId, user_id, isLeadInOnboarding }: Ta
                                                 <SelectContent>
                                                     <SelectItem value="call">
                                                         <div className="flex items-center gap-2">
-                                                            <Phone className="h-4 w-4" />
+                                                            <Phone className="h-4 w-4 text-emerald-600" />
                                                             <span>Call</span>
                                                         </div>
                                                     </SelectItem>
                                                     <SelectItem value="meeting">
                                                         <div className="flex items-center gap-2">
-                                                            <Users className="h-4 w-4" />
+                                                            <Users className="h-4 w-4 text-indigo-600" />
                                                             <span>Meeting</span>
                                                         </div>
                                                     </SelectItem>
                                                     <SelectItem value="followup">
                                                         <div className="flex items-center gap-2">
-                                                            <User className="h-4 w-4" />
+                                                            <User className="h-4 w-4 text-yellow-600" />
                                                             <span>Follow Up</span>
                                                         </div>
                                                     </SelectItem>
                                                     <SelectItem value="mail">
                                                         <div className="flex items-center gap-2">
-                                                            <Mail className="h-4 w-4" />
+                                                            <Mail className="h-4 w-4 text-amber-600" />
                                                             <span>Mail</span>
                                                         </div>
                                                     </SelectItem>
                                                     <SelectItem value="message">
                                                         <div className="flex items-center gap-2">
-                                                            <MessageSquare className="h-4 w-4" />
+                                                            <MessageSquare className="h-4 w-4 text-violet-600" />
                                                             <span>Message</span>
                                                         </div>
                                                     </SelectItem>
@@ -474,31 +474,31 @@ const SalesTasksTab = ({ accountId, companyId, user_id, isLeadInOnboarding }: Ta
                                             <SelectContent>
                                                 <SelectItem value="call">
                                                     <div className="flex items-center gap-2">
-                                                        <Phone className="h-4 w-4" />
+                                                        <Phone className="h-4 w-4 text-emerald-600" />
                                                         <span>Call</span>
                                                     </div>
                                                 </SelectItem>
                                                 <SelectItem value="meeting">
                                                     <div className="flex items-center gap-2">
-                                                        <Users className="h-4 w-4" />
+                                                        <Users className="h-4 w-4 text-indigo-600" />
                                                         <span>Meeting</span>
                                                     </div>
                                                 </SelectItem>
                                                 <SelectItem value="followup">
                                                     <div className="flex items-center gap-2">
-                                                        <User className="h-4 w-4" />
+                                                        <User className="h-4 w-4 text-yellow-600" />
                                                         <span>Follow Up</span>
                                                     </div>
                                                 </SelectItem>
                                                 <SelectItem value="mail">
                                                     <div className="flex items-center gap-2">
-                                                        <Mail className="h-4 w-4" />
+                                                        <Mail className="h-4 w-4 text-amber-600" />
                                                         <span>Mail</span>
                                                     </div>
                                                 </SelectItem>
                                                 <SelectItem value="message">
                                                     <div className="flex items-center gap-2">
-                                                        <MessageSquare className="h-4 w-4" />
+                                                        <MessageSquare className="h-4 w-4 text-violet-600" />
                                                         <span>Message</span>
                                                     </div>
                                                 </SelectItem>

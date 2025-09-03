@@ -1,18 +1,16 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Plus, MoreVertical, FileText, Eye, Edit, Trash2, Code, Palette, FileCode } from 'lucide-react';
+import { Plus, FileText, Eye, Trash2, Code, Palette, FileCode } from 'lucide-react';
 import { toast } from 'sonner';
 import { useApplicationContext } from '@/hooks/useApplicationContext';
 import { createTemplate, getTemplates, deleteTemplate } from '@/api';
 import { useNavigate } from 'react-router-dom';
+import { DataGrid, GridColDef, GridActionsCellItem } from '@mui/x-data-grid';
 
 interface EmailTemplate {
   id: number;
@@ -159,21 +157,19 @@ const TemplateManagement: React.FC = () => {
       } catch (error) {
         toast.error('Failed to delete template');
       } finally {
-        setLoading(false); // Always reset loading
+        setLoading(false);
       }
     }
   };
 
   const openPreviewSheet = useCallback((template: EmailTemplate) => {
-    if (!mounted || loading) return; // Prevent opening if not mounted or loading
+    if (!mounted || loading) return;
     
-    // Close create sheet if open
     if (isCreateSheetOpen) {
       setIsCreateSheetOpen(false);
       resetForm();
     }
     
-    // Set states with delay to ensure proper cleanup
     setTimeout(() => {
       setSelectedTemplate(template);
       setIsPreviewSheetOpen(true);
@@ -181,10 +177,9 @@ const TemplateManagement: React.FC = () => {
   }, [mounted, loading, isCreateSheetOpen, resetForm]);
 
   const closePreviewSheet = useCallback(() => {
-    if (!mounted) return; // Prevent closing if not mounted
+    if (!mounted) return;
     
     setIsPreviewSheetOpen(false);
-    // Cleanup with delay
     setTimeout(() => {
       setSelectedTemplate(null);
     }, 100);
@@ -254,6 +249,46 @@ const TemplateManagement: React.FC = () => {
     '{{current_date}}',
     '{{current_year}}',
     '{{unsubscribe_link}}'
+  ];
+
+  const columns: GridColDef[] = [
+    { field: 'template_name', headerName: 'Template Name', flex: 1 },
+    { 
+      field: 'is_active', 
+      headerName: 'Status', 
+      width: 120,
+      renderCell: (params) => (
+        <Badge variant={params.value ? "default" : "secondary"}>
+          {params.value ? "Active" : "Inactive"}
+        </Badge>
+      )
+    },
+    { 
+      field: 'created_at', 
+      headerName: 'Created Date', 
+      width: 150,
+      valueFormatter: (params: any) => new Date(params).toLocaleDateString()
+    },
+    { field: 'created_by', headerName: 'Created By', width: 150 },
+    { field: 'updated_by', headerName: 'Updated By', width: 150 },
+    {
+      field: 'actions',
+      headerName: 'Actions',
+      width: 120,
+      type: 'actions',
+      getActions: (params) => [
+        <GridActionsCellItem
+          icon={<Eye className="h-4 w-4" />}
+          label="Preview"
+          onClick={() => openPreviewSheet(params.row)}
+        />,
+        <GridActionsCellItem
+          icon={<Trash2 className="h-4 w-4 text-red-600" />}
+          label="Delete"
+          onClick={() => handleDeleteTemplate(params.row)}
+        />
+      ]
+    }
   ];
 
   return (
@@ -448,111 +483,27 @@ const TemplateManagement: React.FC = () => {
         )}
       </div>
 
-      {/* Templates Grid */}
-      {loading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {[...Array(6)].map((_, i) => (
-            <Card key={i} className="animate-pulse rounded-lg">
-              <CardHeader className="pb-3">
-                <div className="h-4 bg-gray-200 rounded w-3/4"></div>
-                <div className="h-3 bg-gray-200 rounded w-1/2"></div>
-              </CardHeader>
-              <CardContent>
-                <div className="h-20 bg-gray-200 rounded"></div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {templates.map((template) => (
-            <div key={`template-wrapper-${template.id}`} className="relative">
-              <Card 
-                key={`template-${template.id}`}
-                className="hover:shadow-md transition-shadow rounded-lg"
-              >
-                <CardHeader className="pb-3">
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-lg">{template.template_name}</CardTitle>
-                    <div className="flex items-center gap-2">
-                      <Badge variant={template.is_active ? "default" : "secondary"}>
-                        {template.is_active ? "Active" : "Inactive"}
-                      </Badge>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button 
-                            variant="ghost" 
-                            size="sm"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            <MoreVertical className="h-4 w-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem 
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              openPreviewSheet(template);
-                            }}
-                          >
-                            <Eye className="h-4 w-4 mr-2" />
-                            Preview
-                          </DropdownMenuItem>
-                          <DropdownMenuItem 
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleDeleteTemplate(template);
-                            }} 
-                            className="text-red-600"
-                          >
-                            <Trash2 className="h-4 w-4 mr-2" />
-                            Delete
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </div>
-                  </div>
-                  <CardDescription>
-                    Created on {new Date(template.created_at).toLocaleDateString()}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4 text-sm">
-                      <div>
-                        <div className="font-medium">Created By</div>
-                        <div className="text-gray-600">{template.created_by}</div>
-                      </div>
-                      <div>
-                        <div className="font-medium">Updated By</div>
-                        <div className="text-gray-600">{template.updated_by}</div>
-                      </div>
-                    </div>
-                    <div 
-                      onClick={() => openPreviewSheet(template)}
-                      className="w-full h-20 overflow-hidden text-xs text-gray-600 border rounded p-2 cursor-pointer"
-                      dangerouslySetInnerHTML={{ __html: template.template }}
-                    />
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          ))}
-        </div>
-      )}
+      <div style={{ height: 400, width: '100%' }}>
+        <DataGrid
+          rows={templates}
+          columns={columns}
+          loading={loading}
+          getRowId={(row) => row.id}
+          disableRowSelectionOnClick
+          autoPageSize
+        />
+      </div>
 
       {templates.length === 0 && !loading && (
-        <Card className="text-center py-12 rounded-lg">
-          <CardContent>
-            <FileText className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No templates found</h3>
-            <p className="text-gray-600 mb-4">Create your first email template to get started</p>
-            <Button onClick={() => setIsCreateSheetOpen(true)}>
-              <Plus className="h-4 w-4 mr-2" />
-              Create Template
-            </Button>
-          </CardContent>
-        </Card>
+        <div className="text-center py-12">
+          <FileText className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+          <h3 className="text-lg font-medium text-gray-900 mb-2">No templates found</h3>
+          <p className="text-gray-600 mb-4">Create your first email template to get started</p>
+          <Button onClick={() => setIsCreateSheetOpen(true)}>
+            <Plus className="h-4 w-4 mr-2" />
+            Create Template
+          </Button>
+        </div>
       )}
     </div>
   );

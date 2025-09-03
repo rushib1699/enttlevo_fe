@@ -260,12 +260,6 @@ const LeadsTable: React.FC<LeadTableProps> = ({
 
   const columns: GridColDef<LeadsData>[] = useMemo(() => [
     {
-      field: 'id',
-      headerName: 'ID',
-      width: 100,
-      sortable: false,
-    },
-    {
       field: 'account_name',
       headerName: 'Company',
       width: 250,

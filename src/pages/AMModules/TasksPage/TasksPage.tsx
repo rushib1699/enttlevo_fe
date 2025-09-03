@@ -70,37 +70,37 @@
     label: string;
     }> = {
     call: {
-        color: 'text-blue-600',
-        bgColor: 'bg-blue-50',
+        color: 'text-sky-700',
+        bgColor: 'bg-sky-50',
         icon: <Phone className="w-4 h-4" />,
         label: 'Call'
     },
     meeting: {
-        color: 'text-green-600',
-        bgColor: 'bg-green-50',
+        color: 'text-emerald-700',
+        bgColor: 'bg-emerald-50',
         icon: <Users className="w-4 h-4" />,
         label: 'Meeting'
     },
     followup: {
-        color: 'text-purple-600',
-        bgColor: 'bg-purple-50',
+        color: 'text-violet-700',
+        bgColor: 'bg-violet-50',
         icon: <RefreshCw className="w-4 h-4" />,
         label: 'Follow Up'
     },
     mail: {
-        color: 'text-orange-600',
-        bgColor: 'bg-orange-50',
+        color: 'text-amber-700',
+        bgColor: 'bg-amber-50',
         icon: <Mail className="w-4 h-4" />,
         label: 'Email'
     },
     message: {
-        color: 'text-red-600',
-        bgColor: 'bg-red-50',
+        color: 'text-rose-700',
+        bgColor: 'bg-rose-50',
         icon: <MessageSquare className="w-4 h-4" />,
         label: 'Message'
     },
     task: {
-        color: 'text-indigo-600',
+        color: 'text-indigo-700',
         bgColor: 'bg-indigo-50',
         icon: <ListTodo className="w-4 h-4" />,
         label: 'Task'
@@ -475,7 +475,7 @@
     const CompletedActivityCard: React.FC<{ activity: Activity }> = ({ activity }) => (
         <div className="p-3 border border-gray-100 rounded-lg bg-gray-50">
         <div className="flex items-start space-x-3">
-            <CheckCircle2 className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+            <CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" />
             <div className="flex-1 min-w-0">
             <h4 className="font-medium text-gray-700 line-through text-sm">{activity.title}</h4>
             <p className="text-xs text-gray-500 mt-1">
@@ -532,7 +532,7 @@
                 icon={<ListTodo className="h-4 w-4" />}
                 label="Active Tasks"
                 value={pendingActivities.length}
-                color="blue"
+                color="sky"
             />
             <CompactStatsCard
                 icon={<CheckCircle2 className="h-4 w-4" />}
@@ -540,13 +540,13 @@
                 value={activities.filter(a => 
                 moment(a.date).isSame(moment(), 'day') && a.is_complete
                 ).length}
-                color="green"
+                color="emerald"
             />
             <CompactStatsCard
                 icon={<Clock className="h-4 w-4" />}
                 label="Today's Tasks"
                 value={todayActivities.length}
-                color="purple"
+                color="violet"
             />
             <CompactStatsCard
                 icon={<Target className="h-4 w-4" />}
@@ -567,7 +567,7 @@
                 <CardContent>
                     {isLoading ? (
                     <div className="flex justify-center items-center py-12">
-                        <Loader2 className="h-8 w-8 text-blue-600 animate-spin" />
+                        <Loader2 className="h-8 w-8 text-sky-600 animate-spin" />
                     </div>
                     ) : pendingActivities.length === 0 ? (
                     <div className="text-center py-12">

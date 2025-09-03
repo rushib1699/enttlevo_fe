@@ -22,7 +22,8 @@ import {
   X,
   MoreHorizontal,
   Loader2,
-  Bookmark
+  Bookmark,
+  Copy
 } from "lucide-react";
 import { useApplicationContext } from "@/hooks/useApplicationContext";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -1064,7 +1065,7 @@ const GoogleEmailPage: React.FC = () => {
 
       {/* Email view modal */}
       <Dialog open={modalVisible} onOpenChange={() => setModalVisible(false)}>
-        <DialogContent className="max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6">
+        <DialogContent className="max-w-6xl w-full max-h-[90vh] overflow-y-auto p-6">
           {selectedEmail && (
             <div className="space-y-6">
               {/* Email Header */}
@@ -1100,20 +1101,26 @@ const GoogleEmailPage: React.FC = () => {
 
                 {/* Action Buttons */}
                 <div className="flex flex-wrap gap-2 pt-2">
-                  <Button variant="outline" onClick={handleReply} size="sm">
+                  <Button 
+                    variant="default" 
+                    onClick={handleReply} size="sm">
                     <Reply className="h-4 w-4 mr-2" />
                     Reply
                   </Button>
-                  <Button variant="outline" onClick={handleReplyAll} size="sm">
+                  <Button 
+                    variant="default" 
+                    onClick={handleReplyAll} size="sm">
                     <ReplyAll className="h-4 w-4 mr-2" />
                     Reply All
                   </Button>
-                  <Button variant="outline" onClick={handleForward} size="sm">
+                  <Button 
+                    variant="default" 
+                    onClick={handleForward} size="sm">
                     <Share className="h-4 w-4 mr-2" />
                     Forward
                   </Button>
                   <Button
-                    variant="outline"
+                    variant="green"
                     size="sm"
                     onClick={handleGenerateAIReply}
                     disabled={isGeneratingAIReply.loading && isGeneratingAIReply.emailId === selectedEmail?.id}
@@ -1138,20 +1145,34 @@ const GoogleEmailPage: React.FC = () => {
                 <div className="rounded-lg border bg-muted/50 p-4">
                   <div className="flex items-center justify-between mb-2">
                     <span className="font-medium">AI Generated Reply</span>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => setShowAIGeneratedReply({
-                        ...showAIGeneratedReply,
-                        visible: !showAIGeneratedReply.visible
-                      })}
-                    >
-                      {showAIGeneratedReply.visible ? (
-                        <ChevronUp className="h-4 w-4" />
-                      ) : (
-                        <ChevronDown className="h-4 w-4" />
-                      )}
-                    </Button>
+                    <div className="flex gap-2">
+                      <Button
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => {
+                          if (showAIGeneratedReply.output) {
+                            navigator.clipboard.writeText(showAIGeneratedReply.output);
+                            toast.success("Copied to clipboard");
+                          }
+                        }}
+                      >
+                        <Copy className="h-4 w-4 mr-2" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setShowAIGeneratedReply({
+                          ...showAIGeneratedReply,
+                          visible: !showAIGeneratedReply.visible
+                        })}
+                      >
+                        {showAIGeneratedReply.visible ? (
+                          <ChevronUp className="h-4 w-4" />
+                        ) : (
+                          <ChevronDown className="h-4 w-4" />
+                        )}
+                      </Button>
+                    </div>
                   </div>
                   {showAIGeneratedReply.visible && (
                     <div className="prose prose-sm max-w-none" dangerouslySetInnerHTML={{

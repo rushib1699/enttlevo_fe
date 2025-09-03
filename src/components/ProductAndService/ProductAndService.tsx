@@ -27,7 +27,6 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { 
   Dialog, 
@@ -56,7 +55,6 @@ import {
 } from "@/components/ui/form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface ProductAndServiceProps {
@@ -70,13 +68,13 @@ const addProductSchema = z.object({
   product_id: z.string().min(1, 'Please select a product'),
   quantity: z.number().min(1, 'Quantity must be at least 1'),
   price: z.number().min(0, 'Price must be at least 0'),
-  contacts: z.array(z.string()).optional(),
+  contacts: z.array(z.number()).optional(),
 });
 
 const editProductSchema = z.object({
   quantity: z.number().min(1, 'Quantity must be at least 1'),
   price: z.number().min(0, 'Price must be at least 0'),
-  contacts: z.array(z.string()).optional(),
+  contacts: z.array(z.number()).optional(),
 });
 
 const ProductAndService: React.FC<ProductAndServiceProps> = ({ companyId, customerId, userId }) => {
@@ -185,9 +183,9 @@ const ProductAndService: React.FC<ProductAndServiceProps> = ({ companyId, custom
         quantity: values.quantity,
         price: values.price,
         user_id: userId,
-        company_customer_id: customerId,
+        company_customer_id: Number(customerId),
         company_id: companyId,
-        contacts: values.contacts || []
+        contacts: Array.isArray(values.contacts) ? values.contacts : []
       };
       await addCustomerProduct(payload);
       toast.success('Product added for customer');
@@ -232,11 +230,12 @@ const ProductAndService: React.FC<ProductAndServiceProps> = ({ companyId, custom
     setEditingProduct(product);
     setIsEditModalOpen(true);
     
-    // Extract contact IDs from the contact array
+    // Extract contact IDs from the contact array and convert to strings
     const contactIds = product.contact && Array.isArray(product.contact) 
       ? product.contact.map((contact: any) => contact.id.toString()) 
       : [];
-    
+
+    // Reset form with current values including contacts
     editForm.reset({
       quantity: product.quantity,
       price: product.price,
@@ -246,20 +245,22 @@ const ProductAndService: React.FC<ProductAndServiceProps> = ({ companyId, custom
 
   const handleUpdateCustomerProduct = async (values: any) => {
     if (!editingProduct) return;
+    
     try {
       setIsSubmitting(true);
       const payload = {
         id: editingProduct.id,
         product_id: editingProduct.product_id || editingProduct.productId || editingProduct.product?.id,
-        quantity: values.quantity,
-        price: values.price,
+        quantity: Number(values.quantity),
+        price: Number(values.price),
         user_id: userId,
-        company_customer_id: customerId,
+        company_customer_id: Number(customerId),
         company_id: companyId,
         is_active: 1,
         is_deleted: 0,
-        contacts: values.contacts || []
+        contacts: values.contacts ? values.contacts.map((id: string) => Number(id)) : []
       };
+      
       await updateCustomerProduct(payload);
       toast.success('Customer product updated');
       setIsEditModalOpen(false);
@@ -308,7 +309,7 @@ const ProductAndService: React.FC<ProductAndServiceProps> = ({ companyId, custom
         quantity: deletingProduct.quantity,
         price: deletingProduct.price,
         user_id: userId,
-        company_customer_id: customerId,
+        company_customer_id: Number(customerId),
         company_id: companyId,
         is_active: 0,
         is_deleted: 1,
@@ -608,7 +609,10 @@ const ProductAndService: React.FC<ProductAndServiceProps> = ({ companyId, custom
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Contacts</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <Select 
+                        onValueChange={(value) => field.onChange([value])} 
+                        defaultValue={field.value?.[0]}
+                      >
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Select contacts (optional)" />
@@ -717,7 +721,10 @@ const ProductAndService: React.FC<ProductAndServiceProps> = ({ companyId, custom
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Contacts</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <Select 
+                        onValueChange={(value) => field.onChange([value])} 
+                        value={field.value?.[0]}
+                      >
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Select contacts (optional)" />
