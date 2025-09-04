@@ -11,6 +11,11 @@ export default defineConfig({
     },
   },
   server: {
+    host: 'localhost',
     port: 3000,
-  }
+    strictPort: true,
+    cors: true,
+    headers: {
+      'Access-Control-Allow-Origin': '*', // Allow all origins
+    },}
 })
