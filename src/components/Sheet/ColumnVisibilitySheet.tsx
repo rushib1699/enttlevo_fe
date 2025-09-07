@@ -78,6 +78,7 @@ const COLUMN_DISPLAY_NAMES: { [key: string]: string } = {
   is_icp_id: "ICP ID",
   status_id: "Status ID",
   lable_id: "Label ID",
+  live_date: "Live Date"
 };
 
 // Generate display name for column

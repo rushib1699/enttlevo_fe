@@ -185,7 +185,7 @@ const UnassignedAMTable: React.FC<UnassignedAMTableProps> = ({ data, loading, co
       field: 'action',
       headerName: 'Actions',
       width: 140,
-      renderCell: (params: { row: any; }) => (
+      renderCell: (params) => (
         <Button
           variant="default"
           size="sm"
@@ -210,11 +210,41 @@ const UnassignedAMTable: React.FC<UnassignedAMTableProps> = ({ data, loading, co
     { field: 'obm_id', headerName: 'OBM ID', width: 100 },
     { field: 'website', headerName: 'Website', width: 200 },
     { field: 'linkedin', headerName: 'LinkedIn', width: 200 },
-    { field: 'live_date', headerName: 'Go Live Date', width: 150, type: 'date' },
-    { field: 'handoff_date', headerName: 'Handoff Date', width: 150, type: 'date' },
-    { field: 'transfer_date', headerName: 'Transfer Date', width: 150, type: 'date' },
-    { field: 'contract_start_date', headerName: 'Contract Start', width: 150, type: 'date' },
-    { field: 'contract_close_date', headerName: 'Contract End', width: 150, type: 'date' },
+    { 
+      field: 'live_date', 
+      headerName: 'Go Live Date', 
+      width: 150, 
+      type: 'date',
+      valueGetter: (params) => params?.value ? new Date(params.value) : null
+    },
+    { 
+      field: 'handoff_date', 
+      headerName: 'Handoff Date', 
+      width: 150, 
+      type: 'date',
+      valueGetter: (params) => params?.value ? new Date(params.value) : null
+    },
+    { 
+      field: 'transfer_date', 
+      headerName: 'Transfer Date', 
+      width: 150, 
+      type: 'date',
+      valueGetter: (params) => params?.value ? new Date(params.value) : null
+    },
+    { 
+      field: 'contract_start_date', 
+      headerName: 'Contract Start', 
+      width: 150, 
+      type: 'date',
+      valueGetter: (params) => params?.value ? new Date(params.value) : null
+    },
+    { 
+      field: 'contract_close_date', 
+      headerName: 'Contract End', 
+      width: 150, 
+      type: 'date',
+      valueGetter: (params) => params?.value ? new Date(params.value) : null
+    },
     { field: 'balance', headerName: 'Balance', width: 120, type: 'number' },
     { field: 'contract_value', headerName: 'Contract Value', width: 130, type: 'number' },
     { field: 'arr', headerName: 'ARR', width: 120, type: 'number' },

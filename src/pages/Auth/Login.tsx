@@ -9,12 +9,10 @@ import { SIDE_BAR_ITEMS } from "@/components/Sidebar/items";
 import { getAccessibleModules } from "../../utils/moduleAccess";
 
 // Shadcn UI Components
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Separator } from "@/components/ui/separator";
+
 
 // Form validation
 import * as z from "zod";
@@ -49,7 +47,7 @@ const loginSchema = z.object({
 type FormValues = z.infer<typeof loginSchema>;
 
 const LoginPage = () => {
-  const { setLoginResponse } = useApplicationContext();
+  const { setLoginResponse, loginResponse } = useApplicationContext();
   const [errorMessage, setErrorMessage] = useState<string>("");
   const navigate = useNavigate();
   const [isLogging, setIsLogging] = useState(false);
@@ -64,6 +62,13 @@ const LoginPage = () => {
     },
     mode: "onChange",
   });
+
+  // Check if user is already logged in
+  useEffect(() => {
+    if (loginResponse) {
+      navigate('/sales');
+    }
+  }, [loginResponse, navigate]);
 
   // Load background image
   useEffect(() => {
