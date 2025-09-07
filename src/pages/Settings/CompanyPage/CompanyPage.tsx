@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { CompanyDetails } from '@/types';
-import { Building2, Mail, MapPin, Phone, Settings, Link } from 'lucide-react';
+import { Building2, Mail, MapPin, Phone, Settings, Link, Info } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { Loader2 } from 'lucide-react';
 import { useApplicationContext } from '@/hooks/useApplicationContext';
@@ -55,7 +55,7 @@ const CompanyPage = () => {
       </div>
 
       <div className="w-full">
-        <div className="border-b border-gray-200 mb-6">
+        <div className="border-b border-gray-200 mb-2">
           <div className="flex items-center space-x-8">
             <button
               onClick={() => setActiveTab('overview')}
@@ -91,50 +91,64 @@ const CompanyPage = () => {
 
         <div className="mt-2">
           {activeTab === 'overview' && (
-            <Card className="overflow-hidden rounded-lg">
-              <CardHeader>
-                <CardTitle className="flex items-center">
+            <Card className="overflow-hidden rounded-lg bg-white shadow-sm">
+              <CardHeader className="border-b border-gray-100 bg-gray-50/50">
+                <CardTitle className="flex items-center text-lg">
                   <Building2 className="w-5 h-5 mr-2 text-blue-600" />
-                  Company Details
+                  Company Profile
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <h3 className="font-medium mb-4">Basic Information</h3>
-                    <div className="space-y-4">
-                      <div className="flex items-center space-x-3">
-                        <Building2 className="w-4 h-4 text-gray-400" />
+              <CardContent className="p-2 space-y-2">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="bg-gray-50/30 p-6 rounded-lg">
+                    <h3 className="font-semibold text-gray-900 mb-6 flex items-center">
+                      <Building2 className="w-4 h-4 mr-2 text-blue-600" />
+                      Basic Information
+                    </h3>
+                    <div className="space-y-6">
+                      <div className="flex items-center space-x-4">
+                        <div className="p-2 bg-blue-50 rounded-full">
+                          <Building2 className="w-5 h-5 text-blue-600" />
+                        </div>
                         <div>
-                          <p className="text-sm text-gray-500">Company Name</p>
-                          <p className="font-medium">{companyDetails?.name || 'N/A'}</p>
+                          <p className="text-sm font-medium text-gray-500">Company Name</p>
+                          <p className="text-base font-semibold text-gray-900">{companyDetails?.name || 'N/A'}</p>
                         </div>
                       </div>
-                      <div className="flex items-center space-x-3">
-                        <Mail className="w-4 h-4 text-gray-400" />
+                      <div className="flex items-center space-x-4">
+                        <div className="p-2 bg-blue-50 rounded-full">
+                          <Mail className="w-5 h-5 text-blue-600" />
+                        </div>
                         <div>
-                          <p className="text-sm text-gray-500">Email</p>
-                          <p className="font-medium">{companyDetails?.support_email || 'N/A'}</p>
+                          <p className="text-sm font-medium text-gray-500">Email</p>
+                          <p className="text-base font-semibold text-gray-900">{companyDetails?.support_email || 'N/A'}</p>
                         </div>
                       </div>
-                      <div className="flex items-center space-x-3">
-                        <Phone className="w-4 h-4 text-gray-400" />
+                      <div className="flex items-center space-x-4">
+                        <div className="p-2 bg-blue-50 rounded-full">
+                          <Phone className="w-5 h-5 text-blue-600" />
+                        </div>
                         <div>
-                          <p className="text-sm text-gray-500">Phone</p>
-                          <p className="font-medium">{companyDetails?.phone || 'N/A'}</p>
+                          <p className="text-sm font-medium text-gray-500">Phone</p>
+                          <p className="text-base font-semibold text-gray-900">{companyDetails?.phone || 'N/A'}</p>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  <div>
-                    <h3 className="font-medium mb-4">Address</h3>
+                  <div className="bg-gray-50/30 p-6 rounded-lg">
+                    <h3 className="font-semibold text-gray-900 mb-6 flex items-center">
+                      <MapPin className="w-4 h-4 mr-2 text-blue-600" />
+                      Address Details
+                    </h3>
                     <div className="space-y-4">
-                      <div className="flex items-start space-x-3">
-                        <MapPin className="w-4 h-4 text-gray-400 mt-1" />
+                      <div className="flex items-start space-x-4">
+                        <div className="p-2 bg-blue-50 rounded-full">
+                          <MapPin className="w-5 h-5 text-blue-600" />
+                        </div>
                         <div>
-                          <p className="text-sm text-gray-500">Location</p>
-                          <p className="font-medium">
+                          <p className="text-sm font-medium text-gray-500">Location</p>
+                          <p className="text-base font-semibold text-gray-900">
                             {companyDetails?.address?.street || 'N/A'}<br />
                             {companyDetails?.address?.city && `${companyDetails.address.city}, `}
                             {companyDetails?.address?.state && `${companyDetails.address.state} `}
@@ -146,22 +160,27 @@ const CompanyPage = () => {
                   </div>
                 </div>
 
-                <Separator />
+                <Separator className="my-8" />
 
-                <div>
-                  <h3 className="font-medium mb-4">Additional Information</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div>
-                      <p className="text-sm text-gray-500">Industry</p>
-                      <p className="font-medium">{companyDetails?.industry || 'N/A'}</p>
+                <div className="bg-gray-50/30 p-6 rounded-lg">
+                  <h3 className="font-semibold text-gray-900 mb-6 flex items-center">
+                    <Info className="w-4 h-4 mr-2 text-blue-600" />
+                    Additional Information
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className="p-4 bg-white rounded-lg shadow-sm">
+                      <p className="text-sm font-medium text-gray-500">Industry</p>
+                      <p className="text-base font-semibold text-gray-900 mt-1">{companyDetails?.industry || 'N/A'}</p>
                     </div>
-                    <div>
-                      <p className="text-sm text-gray-500">Company ID</p>
-                      <p className="font-medium">{companyDetails?.id || 'N/A'}</p>
+                    <div className="p-4 bg-white rounded-lg shadow-sm">
+                      <p className="text-sm font-medium text-gray-500">Company ID</p>
+                      <p className="text-base font-semibold text-gray-900 mt-1">{companyDetails?.id || 'N/A'}</p>
                     </div>
-                    <div>
-                      <p className="text-sm text-gray-500">Created At</p>
-                      <p className="font-medium">{new Date(companyDetails?.created_at || '').toLocaleDateString() || 'N/A'}</p>
+                    <div className="p-4 bg-white rounded-lg shadow-sm">
+                      <p className="text-sm font-medium text-gray-500">Created At</p>
+                      <p className="text-base font-semibold text-gray-900 mt-1">
+                        {new Date(companyDetails?.created_at || '').toLocaleDateString() || 'N/A'}
+                      </p>
                     </div>
                   </div>
                 </div>

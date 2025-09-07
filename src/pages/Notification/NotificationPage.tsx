@@ -54,7 +54,6 @@ const NotificationPage: React.FC = () => {
   const groupNotifications = () => {
     const today: Notification[] = [];
     const tomorrow: Notification[] = [];
-    const other: Notification[] = [];
 
     notifications.forEach(notification => {
       const date = parseISO(notification.date);
@@ -62,15 +61,13 @@ const NotificationPage: React.FC = () => {
         today.push(notification);
       } else if (isTomorrow(date)) {
         tomorrow.push(notification);
-      } else {
-        other.push(notification);
       }
     });
 
-    return { today, tomorrow, other };
+    return { today, tomorrow };
   };
 
-  const { today, tomorrow, other } = groupNotifications();
+  const { today, tomorrow } = groupNotifications();
 
   const getNotificationTypeColor = (type: string) => {
     switch(type.toLowerCase()) {
@@ -147,7 +144,7 @@ const NotificationPage: React.FC = () => {
   );
 
   return (
-    <div className="grid grid-cols-3 gap-4">
+    <div className="grid grid-cols-2 gap-4">
       <NotificationCard 
         title="Today's Notifications" 
         notifications={today}
@@ -156,11 +153,6 @@ const NotificationPage: React.FC = () => {
       <NotificationCard 
         title="Tomorrow's Notifications" 
         notifications={tomorrow}
-        icon={<Calendar className="h-5 w-5 text-primary" />}
-      />
-      <NotificationCard
-        title="Other Notifications"
-        notifications={other}
         icon={<Calendar className="h-5 w-5 text-primary" />}
       />
     </div>
